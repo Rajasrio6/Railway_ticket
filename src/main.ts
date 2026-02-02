@@ -111,8 +111,56 @@ const templates: Record<string, string> = {
           <div class="facilities">
             <div class="facility">Socket</div><div class="facility">Wifi</div><div class="facility">TV</div>
           </div>
+            <button class="btn-select">Select</button>
+          </div>
+        </div>
+      </div>
+      <div class="ticket-card">
+        <div class="ticket-header">
+          <div class="operator"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Deutsche_Bahn_Logo.svg/1200px-Deutsche_Bahn_Logo.svg.png"> DB Navigator</div>
+          <div class="duration">Duration 6h 45m</div>
+        </div>
+        <div class="timeline">
+          <div class="time-box"><span class="time">09:15</span><span class="station">Berlin Hbf</span><span class="date">Fr 20 Sep</span></div>
+          <div class="timeline-track"><div class="stop" style="left: 50%"></div></div>
+          <div class="time-box" style="text-align: right;"><span class="time">16:00</span><span class="station">London St Pancras</span><span class="date">Fr 20 Sep</span></div>
+        </div>
+        <div class="ticket-footer">
+          <div class="facilities">
+            <div class="facility">Wifi</div><div class="facility">Meal</div>
+          </div>
           <div class="price-booking">
-            <div class="price"><span class="amount">$350</span><span class="price-sub">/ Includes tax & fees</span></div>
+             <div class="seats-info">12 seats left</div>
+            <div class="price"><span class="amount">$280</span><span class="price-sub">/ Includes tax & fees</span></div>
+            <button class="btn-select">Select</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  `,
+  recommended: `
+    <div class="page-header" style="grid-column: 1 / -1;">
+      <h2>Recommended Journeys</h2>
+      <p style="color: var(--text-muted);">Curated for your comfort and speed</p>
+    </div>
+    <main class="results-container" style="grid-column: 1 / -1;">
+      <div class="ticket-card">
+        <div class="ticket-header">
+          <div class="operator"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/15/Eurostar_logo.svg/1200px-Eurostar_logo.svg.png"> Eurostar Premium</div>
+          <div class="duration">Duration 7h 30m</div>
+        </div>
+        <div class="timeline">
+          <div class="time-box"><span class="time">10:00</span><span class="station">Berlin Hbf</span><span class="date">Fr 20 Sep</span></div>
+          <div class="timeline-track"><div class="stop" style="left: 40%"></div><div class="stop" style="left: 80%"></div></div>
+          <div class="time-box" style="text-align: right;"><span class="time">17:30</span><span class="station">London St Pancras</span><span class="date">Fr 20 Sep</span></div>
+        </div>
+        <div class="ticket-footer">
+          <div class="facilities">
+            <div class="facility">Full Meal</div><div class="facility">Extra Legroom</div><div class="facility">Wifi</div>
+          </div>
+          <div class="price-booking">
+            <div class="seats-info">5 seats left</div>
+            <div class="price"><span class="amount">$420</span><span class="price-sub">/ Premium Class</span></div>
             <button class="btn-select">Select</button>
           </div>
         </div>
@@ -225,6 +273,10 @@ function navigate() {
     header.classList.remove('hidden');
     appContent.innerHTML = templates[hash as keyof typeof templates] || templates.browse;
 
+    if (hash === 'recommended') {
+      app.classList.add('no-sidebar');
+    }
+
     // Update active nav link
     document.querySelectorAll('.nav-item').forEach(item => {
       const href = item.getAttribute('href')?.substring(1);
@@ -241,6 +293,10 @@ function wireUpEvents() {
   // Tab pills
   document.querySelectorAll('.tab-pill').forEach(pill => {
     pill.addEventListener('click', () => {
+      if (pill.textContent?.trim() === 'Recommended') {
+        window.location.hash = 'recommended';
+        return;
+      }
       document.querySelectorAll('.tab-pill').forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
     });

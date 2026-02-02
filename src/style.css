@@ -89,7 +89,40 @@ body {
 .user-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.header-search {
+  flex-grow: 1;
+  max-width: 400px;
+  position: relative;
+  margin: 0 2rem;
+}
+
+.header-search i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.header-search input {
+  width: 100%;
+  padding: 0.625rem 1rem 0.625rem 2.75rem;
+  background: #f1f5f9;
+  border: 1px solid transparent;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.header-search input:focus {
+  background: white;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
 }
 
 .btn-icon {
@@ -238,12 +271,20 @@ body {
   font-weight: 500;
   cursor: pointer;
   border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.tab-pill:hover {
+  background: #f8fafc;
+  border-color: var(--primary);
 }
 
 .tab-pill.active {
   background: var(--accent-orange);
   color: white;
   border-color: var(--accent-orange);
+  transform: scale(1.05);
 }
 
 .tab-pill.secondary {
@@ -254,13 +295,17 @@ body {
 
 /* Ticket Card */
 .ticket-card {
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
+
+.ticket-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
 }
 
 .ticket-header {
@@ -357,7 +402,16 @@ body {
 .price-booking {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
+}
+
+.seats-info {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent-orange);
+  background: rgba(249, 115, 22, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
 }
 
 .price {
