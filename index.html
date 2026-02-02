@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>easyticket - Premium Railway Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+          easyticket
+        </div>
+        <nav class="nav">
+          <a href="#" class="nav-item active">Browse tickets</a>
+          <a href="#" class="nav-item">My booking</a>
+          <a href="#" class="nav-item">Scheduled</a>
+          <a href="#" class="nav-item">History</a>
+        </nav>
+        <div class="user-actions">
+          <button class="btn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.72V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.17a2 2 0 0 1 1-1.74l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          <button class="btn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80" alt="Profile" class="user-profile">
+        </div>
+      </header>
+
+      <!-- Search Bar -->
+      <section class="search-container">
+        <div class="input-group">
+          <label>From</label>
+          <div class="input-wrapper">
+            <i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></i>
+            <input type="text" value="London St Pancras">
+          </div>
+        </div>
+        <div class="input-group">
+          <label>To</label>
+          <div class="input-wrapper">
+            <i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></svg></i>
+            <input type="text" value="Berlin Hbf">
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Departure Date</label>
+          <div class="input-wrapper">
+            <i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></i>
+            <input type="text" value="Wed 11 Sep - Fr 20 Sep">
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Passengers</label>
+          <div class="input-wrapper">
+            <i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></i>
+            <select>
+              <option>1 adult</option>
+              <option>2 adults</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Seat class</label>
+          <div class="input-wrapper">
+            <i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13.5c0 1.4 1.1 2.5 2.5 2.5H16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H9.5C8.1 7 7 8.1 7 9.5Z"/><path d="M12 15V7"/></svg></i>
+            <select>
+              <option>Business</option>
+              <option>Economy</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+      </section>
+
+      <!-- Sidebar Filters -->
+      <aside class="sidebar">
+        <div class="filter-section">
+          <h3>Filters <span style="color: var(--primary); font-size: 0.8rem; cursor: pointer;">Reset</span></h3>
+        </div>
+
+        <div class="filter-section">
+          <h3>Time</h3>
+          <div class="filter-group">
+            <label style="font-size: 0.8rem; color: var(--text-muted);">Departure date</label>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <input type="text" value="07:00 PM" style="width: 100px; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+              <span>→</span>
+              <input type="text" value="18:00 PM" style="width: 100px; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>Facilities</h3>
+          <div class="filter-group">
+            <label class="checkbox-group">
+              <input type="checkbox" checked> Wi-Fi
+            </label>
+            <label class="checkbox-group">
+              <input type="checkbox" checked> Socket
+            </label>
+            <label class="checkbox-group">
+              <input type="checkbox"> Meal
+            </label>
+            <label class="checkbox-group">
+              <input type="checkbox"> Television
+            </label>
+          </div>
+        </div>
+
+        <button class="btn-select" style="margin-top: auto; background: #1e293b; width: 100%;">Apply Filters</button>
+      </aside>
+
+      <!-- Main Content Results -->
+      <main class="results-container">
+        <div class="tabs-filter">
+          <div class="tab-pill active">Cheapest</div>
+          <div class="tab-pill">Recommended</div>
+          <div style="margin-left: auto; display: flex; align-items: center; gap: 1rem; color: var(--text-muted); font-size: 0.875rem;">
+            23 seats left
+            <div class="btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+          </div>
+        </div>
+
+        <!-- Ticket Card 1 -->
+        <div class="ticket-card">
+          <div class="ticket-header">
+            <div class="operator">
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/15/Eurostar_logo.svg/1200px-Eurostar_logo.svg.png" alt="Eurostar">
+              Eurostar
+            </div>
+            <div class="duration">Duration 8h 10m</div>
+          </div>
+
+          <div class="timeline">
+            <div class="time-box">
+              <span class="time">14:30</span>
+              <span class="station">Berlin Hbf</span>
+              <span class="date">Fr 20 Sep</span>
+            </div>
+
+            <div class="timeline-track">
+              <div class="stop" style="left: 30%"></div>
+              <div class="stop" style="left: 70%"></div>
+            </div>
+
+            <div class="time-box" style="text-align: right;">
+              <span class="time">22:40</span>
+              <span class="station">London St Pancras</span>
+              <span class="date">Fr 20 Sep</span>
+            </div>
+          </div>
+
+          <div class="ticket-footer">
+            <div class="facilities">
+              <div class="facility"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M12 11h.01M16 11h.01M8 11h.01"/></svg> Socket</div>
+              <div class="facility"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg> Wifi</div>
+              <div class="facility"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg> TV</div>
+            </div>
+
+            <div class="price-booking">
+              <div class="price">
+                <span class="amount">$350</span>
+                <span class="price-sub">/ Includes tax & fees</span>
+              </div>
+              <button class="btn-select">Select</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ticket Card 2 (British Rail) -->
+        <div class="ticket-card">
+          <div class="ticket-header">
+            <div class="operator">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/National_Rail_logo.svg/1024px-National_Rail_logo.svg.png" alt="British Rail">
+              British Rail
+            </div>
+            <div class="duration">Duration 9h 0m</div>
+          </div>
+
+          <div class="timeline">
+            <div class="time-box">
+              <span class="time">07:04</span>
+              <span class="station">London St Pancras</span>
+              <span class="date">We 11 Sep</span>
+            </div>
+
+            <div class="timeline-track">
+              <div class="stop" style="left: 15%"></div>
+              <div class="stop" style="left: 45%"></div>
+              <div class="stop" style="left: 85%"></div>
+            </div>
+
+            <div class="time-box" style="text-align: right;">
+              <span class="time">17:04</span>
+              <span class="station">Berlin Hbf</span>
+              <span class="date">We 11 Sep</span>
+            </div>
+          </div>
+
+          <div class="ticket-footer">
+            <div class="facilities">
+              <div class="facility"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M12 11h.01M16 11h.01M8 11h.01"/></svg> Socket</div>
+              <div class="facility"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg> Meal</div>
+              <div class="facility"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg> Wifi</div>
+            </div>
+
+            <div class="price-booking">
+              <div class="price">
+                <span class="amount">$420</span>
+                <span class="price-sub">/ Includes tax & fees</span>
+              </div>
+              <button class="btn-select">Select</button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
