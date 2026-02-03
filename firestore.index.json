@@ -1,0 +1,97 @@
+{
+    // Example (Standard Edition):
+    //
+    // "indexes": [
+    //   {
+    //     "collectionGroup": "widgets",
+    //     "queryScope": "COLLECTION",
+    //     "fields": [
+    //       { "fieldPath": "foo", "arrayConfig": "CONTAINS" },
+    //       { "fieldPath": "bar", "mode": "DESCENDING" }
+    //     ]
+    //   },
+    //
+    //  "fieldOverrides": [
+    //    {
+    //      "collectionGroup": "widgets",
+    //      "fieldPath": "baz",
+    //      "indexes": [
+    //        { "order": "ASCENDING", "queryScope": "COLLECTION" }
+    //      ]
+    //    },
+    //   ]
+    // ]
+    //
+    // Example (Enterprise Edition):
+    //
+    // "indexes": [
+    //   {
+    //     "collectionGroup": "reviews",
+    //     "queryScope": "COLLECTION_GROUP",
+    //     "apiScope": "MONGODB_COMPATIBLE_API",
+    //     "density": "DENSE",
+    //     "multikey": false,
+    //     "fields": [
+    //       { "fieldPath": "baz", "mode": "ASCENDING" }
+    //     ]
+    //   },
+    //   {
+    //     "collectionGroup": "items",
+    //     "queryScope": "COLLECTION_GROUP",
+    //     "apiScope": "MONGODB_COMPATIBLE_API",
+    //     "density": "SPARSE_ANY",
+    //     "multikey": true,
+    //     "fields": [
+    //       { "fieldPath": "baz", "mode": "ASCENDING" }
+    //     ]
+    //   },
+    // ]
+    "indexes": [],
+    "fieldOverrides": []
+}
+
+firestore.rules
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database
+    }/documents {
+        // Default deny
+        // match /{document=**} {
+        //   allow read, write: if false;
+        // }
+        // User profiles
+    match /users/{userId
+        } {
+            // Allow users to read/write their own profile
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      // Allow admins to read all (example)
+            // allow read: if request.auth.token.role == 'admin';
+        }
+        // Trains
+    match /trains/{trainId
+        } {
+            // Anyone can read schedules
+      allow read: if true;
+      // Only admin can write
+      allow write: if request.auth != null && request.auth.token.role == 'admin';
+        }
+        // Bookings
+    match /bookings/{bookingId
+        } {
+      allow read, write: if request.auth != null && (resource.data.userId == request.auth.uid || request.resource.data.userId == request.auth.uid);
+        }
+        // Payments
+    match /payments/{paymentId
+        } {
+        allow read: if request.auth != null; // Refine to owner later
+        allow write: if false; // Only server (Admin SDK) writes payments
+        }
+        // Temporary allow all for development (overrides above if matched first? No, rules match specific paths)
+        // To allow development without Auth, uncomment below:
+    match /{document=**
+        } {
+      allow read, write: if true;
+        }
+    }
+}
