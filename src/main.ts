@@ -1,6 +1,6 @@
 import './style.css'
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'http://localhost:5001/api';
 
 interface Train {
   id: number;
@@ -510,12 +510,12 @@ async function navigate() {
 
     let content = '';
     if (hash === 'browse') {
-      const trains = await apiFetch<Train[]>('/trains');
-      content = templates.browse(trains || []);
+      const response = await apiFetch<{ data: Train[] }>('/trains');
+      content = templates.browse(response?.data || []);
     } else if (hash === 'recommended') {
       app.classList.add('no-sidebar');
-      const trains = await apiFetch<Train[]>('/trains/recommended');
-      content = templates.recommended(trains || []);
+      const response = await apiFetch<{ data: Train[] }>('/trains?sort=recommended');
+      content = templates.recommended(response?.data || []);
     } else if (hash === 'booking') {
       const bookings = await apiFetch<Booking[]>('/bookings');
       content = templates.booking(bookings || []);
@@ -674,14 +674,11 @@ function wireUpEvents() {
       const appContent = document.getElementById('app-content');
       if (appContent) {
         appContent.innerHTML = '<div style="grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; height: 100%; font-size: 1.5rem; color: var(--text-muted);">Searching...</div>';
-        const trains = await apiFetch<Train[]>('/trains/search', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ from, to })
-        });
+        const params = new URLSearchParams({ from, to });
+        const response = await apiFetch<{ data: Train[] }>(`/trains?${params.toString()}`);
         const app = document.getElementById('app');
         if (app) app.classList.remove('no-sidebar');
-        appContent.innerHTML = templates.browse(trains || []);
+        appContent.innerHTML = templates.browse(response?.data || []);
         wireUpEvents();
       }
     });

@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
-import { users } from '../database/db.js';
+const jwt = require('jsonwebtoken');
+const { users } = require('../database/db');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_default_secret_key';
 
-export const login = (req, res) => {
+const login = (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -24,7 +24,7 @@ export const login = (req, res) => {
     }
 };
 
-export const register = (req, res) => {
+const register = (req, res) => {
     try {
         const { email, name, password } = req.body;
         if (users.find(u => u.email === email)) {
@@ -49,4 +49,9 @@ export const register = (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Error during registration", error: error.message });
     }
+};
+
+module.exports = {
+    login,
+    register
 };

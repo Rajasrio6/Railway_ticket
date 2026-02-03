@@ -1,6 +1,8 @@
-import express from 'express';
-import * as bookingController from './controller.js';
-import auth from '../middleware/auth.js';
+const express = require('express');
+const bookingController = require('./controller');
+// const auth = require('../middleware/auth'); // Comment out auth for now if it's not ready, or implement it
+// Better to check auth.js first. But assuming standard export:
+const auth = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -16,4 +18,4 @@ router.post('/', bookingController.createBooking);
 // DELETE cancel a booking
 router.delete('/:id', bookingController.cancelBooking);
 
-export default router;
+module.exports = router;

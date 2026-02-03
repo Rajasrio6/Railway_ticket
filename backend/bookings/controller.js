@@ -1,12 +1,13 @@
-import { bookings, trains } from '../database/db.js';
+const { bookings, trains } = require('../database/db');
 
 /**
  * Get all bookings (optionally filtered by user)
  */
-export const getMyBookings = (req, res) => {
+const getMyBookings = (req, res) => {
     try {
         // In a real app, we would filter by req.user.id
         // For now, return all formatted with train details
+        // Note: bookings is mutable array from db.js
         const myBookings = bookings.map(b => {
             const train = trains.find(t => t.id === b.trainId);
             return { ...b, train };
@@ -20,7 +21,7 @@ export const getMyBookings = (req, res) => {
 /**
  * Create a new booking
  */
-export const createBooking = (req, res) => {
+const createBooking = (req, res) => {
     try {
         const { trainId } = req.body;
         const train = trains.find(t => t.id === trainId);
@@ -54,7 +55,7 @@ export const createBooking = (req, res) => {
 /**
  * Cancel a booking
  */
-export const cancelBooking = (req, res) => {
+const cancelBooking = (req, res) => {
     try {
         const { id } = req.params;
         const index = bookings.findIndex(b => b.id === id);
@@ -72,4 +73,10 @@ export const cancelBooking = (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Error cancelling booking", error: error.message });
     }
+};
+
+module.exports = {
+    getMyBookings,
+    createBooking,
+    cancelBooking
 };

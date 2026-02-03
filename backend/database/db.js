@@ -18,7 +18,7 @@ const getArrivalTime = (departureTime, durationStr) => {
     return totalH.toString().padStart(2, '0') + ":" + totalM.toString().padStart(2, '0');
 };
 
-export const getTrains = () => {
+const getTrains = () => {
     const trainsData = [
         {
             id: 1,
@@ -75,9 +75,9 @@ export const getTrains = () => {
     });
 };
 
-export const trains = getTrains(); // Keep static export for simpler migration if needed, but controller will use getTrains
+const trains = getTrains(); // Keep static export for simpler migration if needed, but controller will use getTrains
 
-export const users = [
+const users = [
     {
         id: 1,
         email: 'demo@easyticket.com',
@@ -86,7 +86,7 @@ export const users = [
     }
 ];
 
-export const bookings = [
+const bookings = [
     {
         id: "BK-101",
         userId: 1,
@@ -105,16 +105,20 @@ const connectDB = async () => {
     try {
         // Replace the URI with your MongoDB connection string
         // Standard local MongoDB: 'mongodb://localhost:27017/railway_ticket'
-        const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/railway_ticket', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/railway_ticket');
 
         console.log(`MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
         console.error(`Error connecting to MongoDB: ${error.message}`);
-        process.exit(1); // Exit process with failure
+        console.log("Running in offline mode (using in-memory data).");
+        // process.exit(1); // Do not exit, keep running
     }
 };
 
-module.exports = connectDB;
+module.exports = {
+    connectDB,
+    trains,
+    users,
+    bookings,
+    getTrains
+};
