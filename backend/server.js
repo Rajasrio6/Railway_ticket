@@ -37,7 +37,7 @@ const historyRoutes = require('./history/routes');
 const userRoutes = require('./users/routes');
 const bookingRoutes = require('./bookings/routes');
 
-const app = express();
+// const app = express();
 
 // Middleware
 app.use(cors()); // Allow frontend to talk to backend
@@ -57,7 +57,7 @@ app.get('/', (req, res) => {
     res.send('Railway Ticket API is running...');
 });
 
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

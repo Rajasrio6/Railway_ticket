@@ -57,7 +57,7 @@ async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise
 }
 
 // --- API Helpers ---
-const API_BASE_URL = 'http://localhost:5000/api';
+// const API_BASE_URL = 'http://localhost:5000/api';
 
 async function fetchTrains(params: Record<string, string> = {}) {
   const query = new URLSearchParams(params).toString();
@@ -612,112 +612,111 @@ function wireUpEvents() {
       // Logic for sorting can be added here
     });
   });
-}
 
-// Select buttons (Create Booking)
-document.querySelectorAll<HTMLElement>('.btn-select').forEach(btn => {
-  btn.addEventListener('click', async () => {
-    const trainId = btn.getAttribute('data-id');
-    if (!trainId) return;
+  // Select buttons (Create Booking)
+  document.querySelectorAll<HTMLElement>('.btn-select').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const trainId = btn.getAttribute('data-id');
+      if (!trainId) return;
 
-    btn.textContent = 'Booking...';
-    const result = await apiFetch('/bookings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ trainId: parseInt(trainId) })
-    });
-
-    if (result) {
-      btn.textContent = 'Booked ✓';
-      btn.style.background = '#10b981';
-      setTimeout(() => {
-        window.location.hash = 'booking';
-      }, 1000);
-    } else {
-      btn.textContent = 'Failed ✗';
-      btn.style.background = '#ef4444';
-      setTimeout(() => { btn.textContent = 'Select'; btn.style.background = ''; }, 2000);
-    }
-  });
-});
-
-// View Details buttons
-document.querySelectorAll<HTMLElement>('.btn-view-details').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const origin = btn.getAttribute('data-origin');
-    const destination = btn.getAttribute('data-destination');
-    const date = btn.getAttribute('data-date');
-    const operator = btn.getAttribute('data-operator');
-
-    alert(`Journey Details:\nOperator: ${operator}\nRoute: ${origin} → ${destination}\nDate: ${date}\nStatus: Confirmed`);
-  });
-});
-
-// Cancel buttons
-document.querySelectorAll<HTMLElement>('.btn-cancel').forEach(btn => {
-  btn.addEventListener('click', async () => {
-    const bookingId = btn.getAttribute('data-id');
-    if (!bookingId) return;
-
-    if (confirm('Are you sure you want to cancel this booking?')) {
-      const result = await apiFetch(`/bookings/${bookingId}`, { method: 'DELETE' });
-      if (result) navigate();
-    }
-  });
-});
-
-// Search functionality
-const searchBtn = document.getElementById('btn-search-main');
-if (searchBtn) {
-  searchBtn.addEventListener('click', async () => {
-    const from = (document.getElementById('search-from') as HTMLInputElement).value;
-    const to = (document.getElementById('search-to') as HTMLInputElement).value;
-    const appContent = document.getElementById('app-content');
-    if (appContent) {
-      appContent.innerHTML = '<div style="grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; height: 100%; font-size: 1.5rem; color: var(--text-muted);">Searching...</div>';
-      const trains = await apiFetch<Train[]>('/trains/search', {
+      btn.textContent = 'Booking...';
+      const result = await apiFetch('/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from, to })
+        body: JSON.stringify({ trainId: parseInt(trainId) })
       });
-      const app = document.getElementById('app');
-      if (app) app.classList.remove('no-sidebar');
-      appContent.innerHTML = templates.browse(trains || []);
-      wireUpEvents();
-    }
-  });
-}
 
-// Settings: Save Button
-const saveSettingsBtn = document.getElementById('btn-save-settings');
-if (saveSettingsBtn) {
-  saveSettingsBtn.addEventListener('click', () => {
-    saveSettingsBtn.textContent = 'Saving...';
-    setTimeout(() => {
-      saveSettingsBtn.textContent = 'Saved ✓';
-      saveSettingsBtn.style.background = '#10b981';
+      if (result) {
+        btn.textContent = 'Booked ✓';
+        btn.style.background = '#10b981';
+        setTimeout(() => {
+          window.location.hash = 'booking';
+        }, 1000);
+      } else {
+        btn.textContent = 'Failed ✗';
+        btn.style.background = '#ef4444';
+        setTimeout(() => { btn.textContent = 'Select'; btn.style.background = ''; }, 2000);
+      }
+    });
+  });
+
+  // View Details buttons
+  document.querySelectorAll<HTMLElement>('.btn-view-details').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const origin = btn.getAttribute('data-origin');
+      const destination = btn.getAttribute('data-destination');
+      const date = btn.getAttribute('data-date');
+      const operator = btn.getAttribute('data-operator');
+
+      alert(`Journey Details:\nOperator: ${operator}\nRoute: ${origin} → ${destination}\nDate: ${date}\nStatus: Confirmed`);
+    });
+  });
+
+  // Cancel buttons
+  document.querySelectorAll<HTMLElement>('.btn-cancel').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const bookingId = btn.getAttribute('data-id');
+      if (!bookingId) return;
+
+      if (confirm('Are you sure you want to cancel this booking?')) {
+        const result = await apiFetch(`/bookings/${bookingId}`, { method: 'DELETE' });
+        if (result) navigate();
+      }
+    });
+  });
+
+  // Search functionality
+  const searchBtn = document.getElementById('btn-search-main');
+  if (searchBtn) {
+    searchBtn.addEventListener('click', async () => {
+      const from = (document.getElementById('search-from') as HTMLInputElement).value;
+      const to = (document.getElementById('search-to') as HTMLInputElement).value;
+      const appContent = document.getElementById('app-content');
+      if (appContent) {
+        appContent.innerHTML = '<div style="grid-column: 1 / -1; display: flex; justify-content: center; align-items: center; height: 100%; font-size: 1.5rem; color: var(--text-muted);">Searching...</div>';
+        const trains = await apiFetch<Train[]>('/trains/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ from, to })
+        });
+        const app = document.getElementById('app');
+        if (app) app.classList.remove('no-sidebar');
+        appContent.innerHTML = templates.browse(trains || []);
+        wireUpEvents();
+      }
+    });
+  }
+
+  // Settings: Save Button
+  const saveSettingsBtn = document.getElementById('btn-save-settings');
+  if (saveSettingsBtn) {
+    saveSettingsBtn.addEventListener('click', () => {
+      saveSettingsBtn.textContent = 'Saving...';
       setTimeout(() => {
-        saveSettingsBtn.textContent = 'Save Changes';
-        saveSettingsBtn.style.background = '';
-      }, 2000);
-    }, 800);
-  });
-}
+        saveSettingsBtn.textContent = 'Saved ✓';
+        saveSettingsBtn.style.background = '#10b981';
+        setTimeout(() => {
+          saveSettingsBtn.textContent = 'Save Changes';
+          saveSettingsBtn.style.background = '';
+        }, 2000);
+      }, 800);
+    });
+  }
 
-// Settings: Dark Mode Toggle
-const darkToggle = document.getElementById('dark-mode-toggle') as HTMLInputElement;
-if (darkToggle) {
-  darkToggle.checked = document.body.classList.contains('dark-mode');
-  darkToggle.addEventListener('change', () => {
-    if (darkToggle.checked) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('theme', 'light');
-    }
-  });
-}
+  // Settings: Dark Mode Toggle
+  const darkToggle = document.getElementById('dark-mode-toggle') as HTMLInputElement;
+  if (darkToggle) {
+    darkToggle.checked = document.body.classList.contains('dark-mode');
+    darkToggle.addEventListener('change', () => {
+      if (darkToggle.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  }
 }
 
 // --- Initialize Theme ---
