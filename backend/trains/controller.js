@@ -1,11 +1,11 @@
-import { trains } from '../database/db.js';
+import { getTrains } from '../database/db.js';
 
 /**
  * Get all available trains
  */
 export const getAllTrains = (req, res) => {
     try {
-        res.status(200).json(trains);
+        res.status(200).json(getTrains());
     } catch (error) {
         res.status(500).json({ message: "Error fetching trains", error: error.message });
     }
@@ -18,7 +18,7 @@ export const searchTrains = (req, res) => {
     try {
         const { from, to, date } = req.body;
 
-        let filteredTrains = trains;
+        let filteredTrains = getTrains();
 
         if (from) {
             filteredTrains = filteredTrains.filter(t => t.origin.toLowerCase().includes(from.toLowerCase()));
@@ -39,7 +39,7 @@ export const searchTrains = (req, res) => {
  */
 export const getRecommendedTrains = (req, res) => {
     try {
-        const recommended = trains.filter(t => t.recommended === true);
+        const recommended = getTrains().filter(t => t.recommended === true);
         res.status(200).json(recommended);
     } catch (error) {
         res.status(500).json({ message: "Error fetching recommended trains", error: error.message });

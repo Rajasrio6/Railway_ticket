@@ -78,6 +78,39 @@ const templates = {
           </div>
           <button type="submit" class="btn-select" style="width: 100%; height: 50px; font-size: 1rem;">Sign In</button>
         </form>
+        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+          Don't have an account? <a href="#signup" style="color: var(--primary); font-weight: 600; text-decoration: none;">Sign Up</a>
+        </p>
+      </div>
+    </div>
+  `,
+  signup: () => `
+    <div class="login-page">
+      <div class="login-card">
+        <div class="logo" style="justify-content: center; margin-bottom: 2rem; font-size: 1.5rem;">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>
+          easyticket
+        </div>
+        <h2>Create an account</h2>
+        <p>Join us to start booking your train tickets</p>
+        <form id="signup-form">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="signup-name" placeholder="John Doe" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="signup-email" placeholder="name@example.com" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="signup-password" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn-select" style="width: 100%; height: 50px; font-size: 1rem;">Sign Up</button>
+        </form>
+        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+          Already have an account? <a href="#login" style="color: var(--primary); font-weight: 600; text-decoration: none;">Sign In</a>
+        </p>
       </div>
     </div>
   `,
@@ -139,7 +172,13 @@ const templates = {
         <label>Seat class</label>
         <div class="input-wrapper">
           <i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13.5c0 1.4 1.1 2.5 2.5 2.5H16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H9.5C8.1 7 7 8.1 7 9.5Z"/><path d="M12 15V7"/></svg></i>
-          <select><option>Business</option><option>Economy</option></select>
+          <select>
+            <option>Economy</option>
+            <option>Premium Economy</option>
+            <option>Business</option>
+            <option>First Class</option>
+            <option>Sleeper</option>
+          </select>
         </div>
       </div>
       <button class="btn-search" id="btn-search-main">
@@ -223,7 +262,7 @@ const templates = {
               <div style="font-size: 0.8rem; color: #64748b;">Reserved for ${new Date(b.bookingDate).toLocaleDateString()}</div>
             </div>
           </div>
-          <button class="btn-select">View Details</button>
+          <button class="btn-view-details" data-origin="${b.train.origin}" data-destination="${b.train.destination}" data-date="${new Date(b.bookingDate).toLocaleDateString()}" data-operator="${b.train.operator}">View Details</button>
         </div>
       `).join('') : '<p style="grid-column: 1 / -1; color: var(--text-muted);">No scheduled trips found.</p>'}
     </div>
@@ -245,6 +284,61 @@ const templates = {
           <div style="color: #64748b;">$${b.train.price}.00</div>
         </div>
       `).join('') : '<p style="grid-column: 1 / -1; color: var(--text-muted);">No journey history found.</p>'}
+    </div>
+  `,
+  settings: () => `
+    <div class="page-header" style="grid-column: 1 / -1;">
+      <h2>Settings</h2>
+      <p style="color: var(--text-muted);">Manage your account preferences</p>
+    </div>
+    <div class="settings-container" style="grid-column: 1 / -1; background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow);">
+      <div class="settings-section" style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1rem;">Profile Settings</h3>
+        <div class="form-group" style="max-width: 400px;">
+          <label>Full Name</label>
+          <input type="text" id="settings-name" value="Demo User">
+        </div>
+        <div class="form-group" style="max-width: 400px;">
+          <label>Email Address</label>
+          <input type="email" id="settings-email" value="demo@easyticket.com">
+        </div>
+      </div>
+      <div class="settings-section" style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1rem;">Preferences</h3>
+        <div class="filter-group">
+          <label class="checkbox-group"><input type="checkbox" checked> Receive email notifications</label>
+          <label class="checkbox-group"><input type="checkbox" checked> Show recommendations</label>
+          <label class="checkbox-group"><input type="checkbox" id="dark-mode-toggle"> Dark mode</label>
+        </div>
+      </div>
+      <button class="btn-select" id="btn-save-settings">Save Changes</button>
+    </div>
+  `,
+  notifications: () => `
+    <div class="page-header" style="grid-column: 1 / -1;">
+      <h2>Notifications</h2>
+    </div>
+    <div class="booking-list" style="grid-column: 1 / -1;">
+      <div class="booking-item" style="gap: 1.5rem;">
+        <div style="background: #eff6ff; padding: 0.75rem; border-radius: 0.75rem; color: #3b82f6;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600;">Booking Confirmed</div>
+          <div style="font-size: 0.8rem; color: #64748b;">Your ticket for Berlin → London has been successfully booked.</div>
+        </div>
+        <div style="font-size: 0.75rem; color: #64748b;">2h ago</div>
+      </div>
+      <div class="booking-item" style="gap: 1.5rem;">
+        <div style="background: #fef3c7; padding: 0.75rem; border-radius: 0.75rem; color: #d97706;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 600;">Trip Reminder</div>
+          <div style="font-size: 0.8rem; color: #64748b;">Your trip from Paris → Amsterdam is coming up in 24 hours.</div>
+        </div>
+        <div style="font-size: 0.75rem; color: #64748b;">Yesterday</div>
+      </div>
     </div>
   `
 };
@@ -314,6 +408,31 @@ async function navigate() {
         }
       });
     }
+  } else if (hash === 'signup') {
+    app.classList.add('no-sidebar');
+    header.classList.add('hidden');
+    appContent.innerHTML = templates.signup();
+    const signupForm = document.getElementById('signup-form');
+    if (signupForm) {
+      signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = (document.getElementById('signup-name') as HTMLInputElement).value;
+        const email = (document.getElementById('signup-email') as HTMLInputElement).value;
+        const password = (document.getElementById('signup-password') as HTMLInputElement).value;
+
+        const response = await apiFetch<{ token: string, user: any }>('/users/register', {
+          method: 'POST',
+          body: JSON.stringify({ name, email, password })
+        });
+
+        if (response && response.token) {
+          localStorage.setItem('token', response.token);
+          window.location.hash = 'browse';
+        } else {
+          alert('Registration failed');
+        }
+      });
+    }
   } else {
     app.classList.remove('no-sidebar');
     header.classList.remove('hidden');
@@ -337,6 +456,12 @@ async function navigate() {
       const bookings = await apiFetch<Booking[]>('/bookings');
       // In a real app we'd filter for status === 'Completed' or similar
       content = templates.history(bookings || []);
+    } else if (hash === 'settings') {
+      app.classList.add('no-sidebar');
+      content = templates.settings();
+    } else if (hash === 'notifications') {
+      app.classList.add('no-sidebar');
+      content = templates.notifications();
     } else {
       const templateFn = (templates as any)[hash];
       content = typeof templateFn === 'function' ? templateFn([]) : templates.browse([]);
@@ -379,7 +504,7 @@ function wireUpEvents() {
     });
 
     document.querySelectorAll('.btn-counter').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', () => {
         const type = btn.getAttribute('data-type') as 'adults' | 'kids';
         const action = btn.getAttribute('data-action');
 
@@ -443,6 +568,18 @@ function wireUpEvents() {
     });
   });
 
+  // View Details buttons
+  document.querySelectorAll<HTMLElement>('.btn-view-details').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const origin = btn.getAttribute('data-origin');
+      const destination = btn.getAttribute('data-destination');
+      const date = btn.getAttribute('data-date');
+      const operator = btn.getAttribute('data-operator');
+
+      alert(`Journey Details:\nOperator: ${operator}\nRoute: ${origin} → ${destination}\nDate: ${date}\nStatus: Confirmed`);
+    });
+  });
+
   // Cancel buttons
   document.querySelectorAll<HTMLElement>('.btn-cancel').forEach(btn => {
     btn.addEventListener('click', async () => {
@@ -477,9 +614,51 @@ function wireUpEvents() {
       }
     });
   }
+
+  // Settings: Save Button
+  const saveSettingsBtn = document.getElementById('btn-save-settings');
+  if (saveSettingsBtn) {
+    saveSettingsBtn.addEventListener('click', () => {
+      saveSettingsBtn.textContent = 'Saving...';
+      setTimeout(() => {
+        saveSettingsBtn.textContent = 'Saved ✓';
+        saveSettingsBtn.style.background = '#10b981';
+        setTimeout(() => {
+          saveSettingsBtn.textContent = 'Save Changes';
+          saveSettingsBtn.style.background = '';
+        }, 2000);
+      }, 800);
+    });
+  }
+
+  // Settings: Dark Mode Toggle
+  const darkToggle = document.getElementById('dark-mode-toggle') as HTMLInputElement;
+  if (darkToggle) {
+    darkToggle.checked = document.body.classList.contains('dark-mode');
+    darkToggle.addEventListener('change', () => {
+      if (darkToggle.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  }
+}
+
+// --- Initialize Theme ---
+function initTheme() {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
 }
 
 window.addEventListener('hashchange', navigate);
-window.addEventListener('DOMContentLoaded', navigate);
+window.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  navigate();
+});
 
 console.log('easyticket initialized!');
